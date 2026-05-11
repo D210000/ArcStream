@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
-  --background: 222 47% 5%;
-  --foreground: 210 40% 98%;
-  --muted: 217 22% 15%;
-  --muted-foreground: 215 16% 68%;
-  --surface: 222 36% 9%;
-  --border: 217 24% 18%;
-  --primary: 169 78% 48%;
-  --primary-foreground: 172 90% 6%;
-  --accent: 350 89% 65%;
+  color-scheme: light;
+  --background: 240 33% 99%;
+  --foreground: 236 42% 9%;
+  --muted: 250 42% 96%;
+  --muted-foreground: 233 15% 54%;
+  --surface: 0 0% 100%;
+  --border: 235 31% 91%;
+  --primary: 258 89% 57%;
+  --primary-foreground: 0 0% 100%;
+  --accent: 314 74% 58%;
   --accent-foreground: 0 0% 100%;
   --success: 151 67% 48%;
   --warning: 42 96% 55%;
@@ -29,7 +29,9 @@ html {
 body {
   min-height: 100vh;
   background:
-    linear-gradient(180deg, rgba(9, 14, 27, 0.92), hsl(var(--background)) 34rem),
+    radial-gradient(circle at 15% -5%, rgba(124, 58, 237, 0.08), transparent 26rem),
+    radial-gradient(circle at 85% 0%, rgba(56, 189, 248, 0.08), transparent 24rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), hsl(var(--background)) 38rem),
     hsl(var(--background));
   color: hsl(var(--foreground));
 }
@@ -41,5 +43,27 @@ textarea {
 }
 
 ::selection {
-  background: hsl(var(--primary) / 0.28);
+  background: hsl(var(--primary) / 0.18);
+}
+
+@layer utilities {
+  .glass-card {
+    border: 1px solid hsl(var(--border) / 0.86);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.92),
+      rgba(255, 255, 255, 0.72)
+    );
+    box-shadow: 0 24px 70px rgba(42, 32, 92, 0.08);
+    backdrop-filter: blur(20px);
+  }
+
+  .soft-divider {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--border)),
+      transparent
+    );
+  }
 }

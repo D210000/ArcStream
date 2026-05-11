@@ -4,11 +4,13 @@ import { describe, expect, it } from "vitest";
 import { LandingPage } from "@/components/landing/landing-page";
 
 describe("LandingPage", () => {
-  it("renders the ArcStream landing experience", () => {
+  it("renders the ArcStream live dashboard experience", () => {
     render(<LandingPage />);
 
-    expect(screen.getByRole("heading", { name: "ArcStream" })).toBeInTheDocument();
-    expect(screen.getByText("Live now")).toBeInTheDocument();
-    expect(screen.getAllByText("Watch stream")).toHaveLength(3);
+    expect(screen.getAllByText("ArcStream")).toHaveLength(2);
+    expect(screen.getByRole("heading", { name: "Alexandra" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Live Now" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Send a Tip" })).toBeInTheDocument();
+    expect(screen.getByText("Live Chat")).toBeInTheDocument();
   });
 });
