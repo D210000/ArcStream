@@ -1,4 +1,5 @@
 import { BarChart3, RadioTower, WalletCards } from "lucide-react";
+import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,9 @@ export default function DashboardPage() {
             abstracted behind ArcStream services.
           </p>
         </div>
-        <Button>Start stream</Button>
+        <Button asChild>
+          <Link href="/streams/neon-finals">Start stream</Link>
+        </Button>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[1fr_360px]">

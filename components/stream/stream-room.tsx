@@ -1,6 +1,7 @@
 "use client";
 
 import { MessageSquare, Share2, Star } from "lucide-react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { DonationFeed } from "@/components/donations/donation-feed";
@@ -10,6 +11,26 @@ import { WalletOnboarding } from "@/components/wallet/wallet-onboarding";
 import type { StreamSummary } from "@/lib/stream/types";
 
 export function StreamRoom({ stream }: { stream: StreamSummary }) {
+  const [following, setFollowing] = useState(false);
+  const [shared, setShared] = useState(false);
+
+  async function shareStream() {
+    const shareUrl = `${window.location.origin}/streams/${stream.slug}`;
+
+    if (navigator.share) {
+      await navigator.share({
+        title: stream.title,
+        text: `Watch ${stream.creatorName} live on ArcStream`,
+        url: shareUrl,
+      });
+      setShared(true);
+      return;
+    }
+
+    await navigator.clipboard.writeText(shareUrl);
+    setShared(true);
+  }
+
   return (
     <main className="mx-auto grid max-w-7xl gap-5 px-4 py-5 sm:px-6 lg:grid-cols-[1fr_360px] lg:px-8">
       <div className="space-y-5">
@@ -29,10 +50,24 @@ export function StreamRoom({ stream }: { stream: StreamSummary }) {
               creatorName={stream.creatorName}
               streamerAddress={stream.streamerAddress}
             />
-            <Button size="icon" title="Follow" type="button" variant="secondary">
-              <Star className="size-4" />
+            <Button
+              aria-label={following ? "Unfollow stream" : "Follow stream"}
+              onClick={() => setFollowing((current) => !current)}
+              size="icon"
+              title={following ? "Following" : "Follow"}
+              type="button"
+              variant="secondary"
+            >
+              <Star className={following ? "size-4 fill-current" : "size-4"} />
             </Button>
-            <Button size="icon" title="Share" type="button" variant="secondary">
+            <Button
+              aria-label={shared ? "Stream link copied" : "Share stream"}
+              onClick={shareStream}
+              size="icon"
+              title={shared ? "Copied" : "Share"}
+              type="button"
+              variant="secondary"
+            >
               <Share2 className="size-4" />
             </Button>
           </div>

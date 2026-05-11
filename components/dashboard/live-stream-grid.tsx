@@ -1,23 +1,59 @@
+"use client";
+
 import Image from "next/image";
 import { Eye } from "lucide-react";
+import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import { liveStreams } from "@/lib/dashboard/mock-data";
+import { cn } from "@/lib/utils";
+
+const filters = ["All", "Trading", "Development", "Contracts", "RWAs"] as const;
+type StreamFilter = (typeof filters)[number];
 
 export function LiveStreamGrid() {
+  const [activeFilter, setActiveFilter] = useState<StreamFilter>("All");
+  const [showAll, setShowAll] = useState(false);
+  const filteredStreams = useMemo(
+    () =>
+      liveStreams.filter(
+        (stream) => activeFilter === "All" || stream.category === activeFilter,
+      ),
+    [activeFilter],
+  );
+  const visibleStreams = showAll ? filteredStreams : filteredStreams.slice(0, 4);
+
   return (
-    <section>
-      <div className="mb-4 flex items-center justify-between">
+    <section id="live-now">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-black text-slate-950">Live Now</h2>
-        <button
-          className="text-sm font-bold text-violet-700 transition hover:text-violet-500"
-          type="button"
-        >
-          View all
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          {filters.map((filter) => (
+            <button
+              className={cn(
+                "rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-black text-slate-600 transition hover:border-violet-300 hover:text-violet-700 active:scale-95",
+                activeFilter === filter &&
+                  "border-violet-400 bg-violet-50 text-violet-700",
+              )}
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              type="button"
+            >
+              {filter}
+            </button>
+          ))}
+          <button
+            className="ml-1 text-sm font-bold text-violet-700 transition hover:text-violet-500"
+            onClick={() => setShowAll((current) => !current)}
+            type="button"
+          >
+            {showAll ? "Show less" : "View all"}
+          </button>
+        </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {liveStreams.map((stream) => (
-          <article className="group" key={stream.id}>
+        {visibleStreams.map((stream) => (
+          <Link className="group block" href={`/streams/${stream.routeSlug}`} key={stream.id}>
             <div className="relative overflow-hidden rounded-2xl bg-slate-100 shadow-sm">
               <div className={`absolute inset-0 bg-gradient-to-br ${stream.accent}`} />
               <Image
@@ -41,7 +77,7 @@ export function LiveStreamGrid() {
               <h3 className="font-black text-slate-950">{stream.name}</h3>
               <p className="mt-1 text-sm text-slate-500">{stream.title}</p>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </section>

@@ -7,7 +7,7 @@ const icons = [TrendingUp, Activity, BarChart3];
 
 export function AnalyticsWidgets() {
   return (
-    <section className="grid gap-4 md:grid-cols-3">
+    <section className="grid gap-4 md:grid-cols-3" id="analytics">
       {analyticsWidgets.map((widget, index) => {
         const Icon = icons[index] ?? TrendingUp;
 

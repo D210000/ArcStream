@@ -13,6 +13,7 @@ import {
 export type SidebarItem = {
   label: string;
   icon: LucideIcon;
+  href: string;
   active?: boolean;
 };
 
@@ -30,6 +31,8 @@ export type StreamCard = {
   name: string;
   title: string;
   viewers: string;
+  category: "Trading" | "Development" | "Contracts" | "RWAs";
+  routeSlug: string;
   image: string;
   accent: string;
 };
@@ -42,12 +45,12 @@ export type AnalyticsWidget = {
 };
 
 export const sidebarItems: SidebarItem[] = [
-  { label: "Home", icon: Home, active: true },
-  { label: "Live Now", icon: Radio },
-  { label: "Discover", icon: Search },
-  { label: "Following", icon: Heart },
-  { label: "Messages", icon: MessageSquare },
-  { label: "Notifications", icon: Bell },
+  { label: "Home", icon: Home, href: "/", active: true },
+  { label: "Live Now", icon: Radio, href: "/streams/neon-finals" },
+  { label: "Discover", icon: Search, href: "/?panel=discover" },
+  { label: "Following", icon: Heart, href: "/?panel=following" },
+  { label: "Messages", icon: MessageSquare, href: "/?panel=messages" },
+  { label: "Notifications", icon: Bell, href: "/?panel=notifications" },
 ];
 
 export const chatMessages: ChatMessage[] = [
@@ -104,6 +107,8 @@ export const liveStreams: StreamCard[] = [
     name: "CryptoMax",
     title: "Trading on ARC",
     viewers: "2.4K",
+    category: "Trading",
+    routeSlug: "neon-finals",
     image:
       "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=440&q=80",
     accent: "from-sky-500/20 to-violet-600/20",
@@ -113,6 +118,8 @@ export const liveStreams: StreamCard[] = [
     name: "Sasha",
     title: "Web3 Development",
     viewers: "1.1K",
+    category: "Development",
+    routeSlug: "midnight-synth",
     image:
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=440&q=80",
     accent: "from-emerald-400/20 to-orange-300/20",
@@ -122,6 +129,8 @@ export const liveStreams: StreamCard[] = [
     name: "ChainBuilder",
     title: "Smart Contracts",
     viewers: "893",
+    category: "Contracts",
+    routeSlug: "ship-fast",
     image:
       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=440&q=80",
     accent: "from-cyan-400/20 to-indigo-500/20",
@@ -131,6 +140,8 @@ export const liveStreams: StreamCard[] = [
     name: "Luna",
     title: "DeFi and RWAs",
     viewers: "651",
+    category: "RWAs",
+    routeSlug: "neon-finals",
     image:
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=440&q=80",
     accent: "from-fuchsia-400/20 to-amber-300/20",
@@ -184,6 +195,7 @@ export const mainStreamer = {
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1300&q=85",
   viewers: "1.2K",
   balance: "$1,248.75",
+  walletAddress: "0x1111111111111111111111111111111111111111" as const,
 };
 
 export const navActions = [

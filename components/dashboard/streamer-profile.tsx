@@ -1,10 +1,24 @@
+"use client";
+
 import Image from "next/image";
 import { BadgeCheck, Heart, Users } from "lucide-react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { mainStreamer, topCategories } from "@/lib/dashboard/mock-data";
 
 export function StreamerProfile() {
+  const [following, setFollowing] = useState(false);
+  const [viewerBoost, setViewerBoost] = useState(false);
+
+  function focusAnalytics() {
+    setViewerBoost(true);
+    document.getElementById("analytics")?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }
+
   return (
     <section className="glass-card rounded-2xl p-4 sm:p-5">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -43,13 +57,22 @@ export function StreamerProfile() {
         </div>
 
         <div className="flex gap-3">
-          <Button className="h-12 rounded-2xl bg-gradient-to-r from-violet-600 to-violet-500 px-6 shadow-lg shadow-violet-500/20">
-            <Heart className="size-4" />
-            Follow
+          <Button
+            className="h-12 rounded-2xl bg-gradient-to-r from-violet-600 to-violet-500 px-6 shadow-lg shadow-violet-500/20 active:scale-[0.98]"
+            onClick={() => setFollowing((current) => !current)}
+            type="button"
+          >
+            <Heart className={following ? "size-4 fill-white" : "size-4"} />
+            {following ? "Following" : "Follow"}
           </Button>
-          <Button className="h-12 rounded-2xl px-5" variant="secondary">
+          <Button
+            className="h-12 rounded-2xl px-5 active:scale-[0.98]"
+            onClick={focusAnalytics}
+            type="button"
+            variant="secondary"
+          >
             <Users className="size-4" />
-            {mainStreamer.viewers}
+            {viewerBoost ? "1.3K" : mainStreamer.viewers}
           </Button>
         </div>
       </div>
